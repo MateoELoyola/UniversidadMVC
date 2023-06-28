@@ -27,7 +27,7 @@ namespace UniversidadMVC.Controllers
             _context = context;
             _signInMgr = signInMgr;
             _role = role;
-       
+            
         }
 
         public IActionResult Index()
@@ -51,42 +51,14 @@ namespace UniversidadMVC.Controllers
         {
 
             Usuario user = new Usuario();
+            //Esto esta mal, pero por alguna razon funciona.
+            Role administrador = new Role();
+            administrador.Name = "Administrador";
+            await _role.CreateAsync(administrador);
 
-
-       
-
-
-
-
-
-
-
-
-
-
-            //Esto no funcionaba, voy a cambiarlo
-           
-
-               
-                    Role administrador = new Role();
-                    administrador.Name = "Administrador";
-                    await _role.CreateAsync(administrador);
-
-                    Role usuario = new Role();
-                    usuario.Name = "Usuario";
-                    await _role.CreateAsync(usuario);
-
-                    user.UserName = userForm.UserName;
-                    await _userMgr.CreateAsync(user, userForm.PasswordRegister);
-                    IdentityResult resultado = await _userMgr.AddToRoleAsync(user, "Administrador");
-
-                    return RedirectToAction("Index", "Home");
-
-                
-
-            
-           
-            
+            Role usuario = new Role();
+            usuario.Name = "Usuario";
+            await _role.CreateAsync(usuario);
 
                 Usuario segundo = await _userMgr.FindByNameAsync(userForm.UserName);
 
@@ -121,6 +93,10 @@ namespace UniversidadMVC.Controllers
 
         }
 
+
+
+
+
         //Codigo Login
         
         public async Task<IActionResult> Entrar([Bind("UserName,Password")] Loguearse _logIn)
@@ -146,3 +122,5 @@ namespace UniversidadMVC.Controllers
 
     }
 }
+
+

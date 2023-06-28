@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniversidadMVC.Migrations
 {
-    public partial class Version4 : Migration
+    public partial class Version888 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

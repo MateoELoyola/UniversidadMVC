@@ -4,8 +4,14 @@ using UniversidadMVC.Data;
 using Microsoft.AspNetCore.Identity;
 using UniversidadMVC.Models;
 using Microsoft.Extensions.Options;
+/*
+public class Program {
 
-var builder = WebApplication.CreateBuilder(args);
+    public static async Task Main(string[] args)
+    {
+*/
+
+        var builder = WebApplication.CreateBuilder(args);
 //var connectionString = builder.Configuration.GetConnectionString("BibliotecaDbContextConnection") ?? throw new InvalidOperationException("Connection string 'BibliotecaDbContextConnection' not found.");
 
 
@@ -32,6 +38,9 @@ builder.Services.AddSession(options =>
 
 });
 
+
+builder.Services.AddRazorPages();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -52,4 +61,44 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+
+//Este Codigo deberia agregar los roles apenas se corre el programa, y se ejecuta cada vez que se 
+//inicia el programa
+
+
+        /*
+using (var scope = app.Services.CreateScope())
+{
+
+    
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+
+    var roles = new[] {"Administrador","Usuario" };
+
+    foreach (var algo in roles)
+    {
+
+        if (!await roleManager.RoleExistsAsync(algo))
+            await roleManager.CreateAsync(new Role(algo));
+
+
+    }
+
+          //  [NotMapped]
+
+}
+
+
+
+*/
+
+
+
+
+
 app.Run();
+/*
+}
+
+}
+*/
