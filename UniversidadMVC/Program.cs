@@ -6,6 +6,8 @@ using UniversidadMVC.Models;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+//var connectionString = builder.Configuration.GetConnectionString("BibliotecaDbContextConnection") ?? throw new InvalidOperationException("Connection string 'BibliotecaDbContextConnection' not found.");
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -16,11 +18,11 @@ builder.Services.AddDbContext<UniversidadDbContext>(option =>
 });
 
 
+//Faltaba el "AddRoles" en esta parte del codigo
 builder.Services.AddDefaultIdentity<Usuario>(options => {
     options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequireNonAlphanumeric = false;
-
-}).AddEntityFrameworkStores<UniversidadDbContext>();
+}).AddRoles<Role>().AddEntityFrameworkStores<UniversidadDbContext>();
 
 builder.Services.AddSession(options =>
 {

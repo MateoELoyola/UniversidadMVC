@@ -12,8 +12,8 @@ using UniversidadMVC.Data;
 namespace UniversidadMVC.Migrations
 {
     [DbContext(typeof(UniversidadDbContext))]
-    [Migration("20230627211921_Versionx")]
-    partial class Versionx
+    [Migration("20230628024959_Version4")]
+    partial class Version4
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
