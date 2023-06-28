@@ -20,7 +20,5 @@ namespace UniversidadMVC
 
     }
 
-    public string Nombre { get; set; }
-
-    //asdfawefkopkop
+   
 }
