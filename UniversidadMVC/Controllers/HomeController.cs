@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using UniversidadMVC.Data;
@@ -7,18 +9,20 @@ using UniversidadMVC.Models;
 namespace UniversidadMVC.Controllers
 {
     public class HomeController : Controller
-    { 
-
+    {
+        
         private readonly ILogger<HomeController> _logger;
 
+       
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
-  
-    
+
         public IActionResult Index()
         {
+
+        //    ViewData["UserName"] = HttpContext.Session.GetString("Usuario");
             return View();
         }
 

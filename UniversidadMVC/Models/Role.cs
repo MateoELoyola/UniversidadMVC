@@ -11,11 +11,7 @@ namespace UniversidadMVC.Models
             {
 
             }
-        /*
-        public Role(string roleName) : base(roleName)
-        {
-        }
-        */
+        
     }
        
 }

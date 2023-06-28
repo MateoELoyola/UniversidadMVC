@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿
+<!--Nuevo Codigo porque a Home se le canta no autorizar las cosas-->
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,19 +28,16 @@
             </a>
 
             <!--menu de navegacion-->
+            
+
             <nav>
             <a asp-controller="Home" asp-action="Index" class="nav">Home</a>
             <a asp-controller="Account" asp-action="Register" class="nav">Inscripcion</a>
             <a asp-controller="Carreras" asp-action="Index" class="nav">Carreras</a>
-                <a href="" class="nav">Materias</a>
-            <a asp-controller="Account" asp-action="LogIn" class="nav">Login</a>
-               
-
+            <!-- <a asp-controller="Carreras" asp-action="Materias" href="" class="nav">Materias</a>-->
+            <a asp-controller="Account" asp-action="LogIn" class="nav">Login</a>           
             </nav>
-
-      
-                     
-        
+     
     </header>
     <div class="container">
         <main role="main" class="pb-3">
