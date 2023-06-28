@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UniversidadMVC</title>
+
+    <link rel="stylesheet" href="~/css/Principal.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Carreras.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Contacto.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Inscripcion.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/PreguntasFrecuentes.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/SobreNosotros.css" asp-append-version="true" />  
+    <link rel="stylesheet" href="~/UniversidadMVC.styles.css" asp-append-version="true" />
+    <!--   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> -->
+     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+
+<body>
+    <header>
+
+  
+            <!--Metemos el logo dentro de un link para que nos redireccione al home-->
+        <a asp-controller="Home" asp-action="Index">
+                <img class="logo" src="logo_universidad.png" alt="Logo">
+            </a>
+
+            <!--menu de navegacion-->
+            <nav>
+            <a asp-controller="Home" asp-action="Index" class="nav">Home</a>
+            <a asp-controller="Account" asp-action="Register" class="nav">Inscripcion</a>
+            <a asp-controller="Carreras" asp-action="Index" class="nav">Carreras</a>
+                <a href="" class="nav">Materias</a>
+            <a asp-controller="Account" asp-action="LogIn" class="nav">Login</a>
+               
+
+            </nav>
+
+      
+                     
+        
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <div class="Sobre_Nosotros">
+
+        <a href="SobreNosotros.html">Sobre Nosotros</a>
+
+    </div>
+
+    <br>
+
+    <div class="Contacto">
+
+        <a href="Contacto.html">Contacto</a>
+
+    </div>
+
+    <br>
+
+    <div class="Preguntas_Frecuentes">
+
+        <a href="PreguntasFrecuentes.html">Preguntas Frecuentes</a>
+
+    </div>
+
+    <br>
+    <footer>© 2023 - Grupo 3</footer>
+
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
