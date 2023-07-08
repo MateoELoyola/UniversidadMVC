@@ -8,13 +8,9 @@
 
   <ItemGroup>
     <Compile Remove="Views\Historial\**" />
-    <Compile Remove="Views\Materias\**" />
     <Content Remove="Views\Historial\**" />
-    <Content Remove="Views\Materias\**" />
     <EmbeddedResource Remove="Views\Historial\**" />
-    <EmbeddedResource Remove="Views\Materias\**" />
     <None Remove="Views\Historial\**" />
-    <None Remove="Views\Materias\**" />
   </ItemGroup>
 
   <ItemGroup>

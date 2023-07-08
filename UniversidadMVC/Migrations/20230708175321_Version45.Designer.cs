@@ -12,8 +12,8 @@ using UniversidadMVC.Data;
 namespace UniversidadMVC.Migrations
 {
     [DbContext(typeof(UniversidadDbContext))]
-    [Migration("20230628163010_Version888")]
-    partial class Version888
+    [Migration("20230708175321_Version45")]
+    partial class Version45
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -187,6 +187,12 @@ namespace UniversidadMVC.Migrations
             modelBuilder.Entity("UniversidadMVC.Materia", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CarreraId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
@@ -194,6 +200,8 @@ namespace UniversidadMVC.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarreraId");
 
                     b.ToTable("Materias");
                 });
@@ -369,7 +377,7 @@ namespace UniversidadMVC.Migrations
                 {
                     b.HasOne("UniversidadMVC.Carrera", "Carrera")
                         .WithMany("Materias")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("CarreraId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

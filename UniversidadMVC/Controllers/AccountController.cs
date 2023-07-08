@@ -125,18 +125,7 @@ namespace UniversidadMVC.Controllers
 
         }
 
-       //Codigo Para ROles
-
-        //Crear roles en la tabla de Roles
-        //Role nuevoRol = new Role();
-        //nuevoRol.Name = "Administrador";
-        //await _role.CreateAsync(nuevoRol);
-
-        //Asignar Rol al usuario
-        // await _userMgr.AddToRoleAsync(user, "Administrador");
-
-        //Consultar rol del usuario
-        // await _userMgr.GetRolesAsync(user);
+     
 
     }
 }

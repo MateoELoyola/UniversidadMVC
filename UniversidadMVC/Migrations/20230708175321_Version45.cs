@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniversidadMVC.Migrations
 {
-    public partial class Version888 : Migration
+    public partial class Version45 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -189,15 +189,17 @@ namespace UniversidadMVC.Migrations
                 name: "Materias",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CarreraId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Materias", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Materias_Carreras_Id",
-                        column: x => x.Id,
+                        name: "FK_Materias_Carreras_CarreraId",
+                        column: x => x.CarreraId,
                         principalTable: "Carreras",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -275,6 +277,11 @@ namespace UniversidadMVC.Migrations
                 name: "IX_InscripcionMateria_MateriasId",
                 table: "InscripcionMateria",
                 column: "MateriasId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Materias_CarreraId",
+                table: "Materias",
+                column: "CarreraId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

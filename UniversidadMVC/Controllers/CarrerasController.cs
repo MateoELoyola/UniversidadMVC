@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
 using System.Data;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using UniversidadMVC.Data;
 using UniversidadMVC.Models;
@@ -22,52 +23,83 @@ namespace UniversidadMVC.Controllers
             _context = context;
         }
 
-
         [Authorize(Roles = "Administrador")]
         public IActionResult Index()
         {
             return View();
         }
 
-       // [Authorize(Roles = "Administrador, ElUsuario")]
-        public IActionResult Materias()
+        public IActionResult CrearCarrera()
+        {
+            return View();
+        }
+
+        public IActionResult BorrarCarrera()
         {
             return View();
         }
 
 
-
-
+        //Agrega Carreras por Nombre o por html
+        //Esto funciona, no te permite crear una carrera con el mismo nombre de una ya creada
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> AgregarMateria([Bind("Id,Nombre,Materia")] Materia materia)
+        public async Task<IActionResult> CrearCarreras([Bind("Nombre")] NuevaCarrera otraCarrera)
         {
-            if (ModelState.IsValid)
+            Carrera nuevaCategoria = new Carrera();
+            nuevaCategoria.Nombre = otraCarrera.Nombre;
+            var datosTabla = await _context.Carreras.FirstOrDefaultAsync(m => m.Nombre == otraCarrera.Nombre);
+            // "m" es una variable lamba
+            if (datosTabla == null)
             {
-                _context.Add(materia);
+                await _context.Carreras.AddAsync(nuevaCategoria);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
             }
-            return View(materia);
+            return RedirectToAction(nameof(Index));
+        }
+
+        //Borrar Carreras
+        //Recorda no dejar comentarios personales dentro del codigo.
+
+        //Borra carreras por Id
+        public async Task<IActionResult> BorrarCarreraId([Bind("Id")] NuevaCarrera borrarId)
+        {
+            if (_context.Carreras == null)
+            {
+                return Problem("Entity set 'UniversidadDbContext.Carreras'  is null.");
+            }
+
+            var carrera = await _context.Carreras.FindAsync(borrarId.Id);
+
+            if (carrera != null)
+            {
+                _context.Carreras.Remove(carrera);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
 
-        [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> AgregarCarreras([Bind("AutorId,Name,LastName")] Carrera carrera)
+        //Borra carreras por nombre
+        public async Task<IActionResult> BorrarCarreraNombre([Bind("Nombre")] NuevaCarrera borrarNombre)
         {
-            if (ModelState.IsValid)
+            if (_context.Carreras == null)
             {
-                _context.Add(carrera);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Problem("Entity set 'UniversidadDbContext.Carreras'  is null.");
             }
-            return View(carrera);
+
+            var carrera = await _context.Carreras.FirstOrDefaultAsync(m => m.Nombre == borrarNombre.Nombre);
+
+            if (carrera != null)
+
+            {
+                _context.Carreras.Remove(carrera);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
-
-
-
-
-
-
 
     }
 }
