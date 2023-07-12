@@ -1,4 +1,5 @@
-﻿
+﻿<!--Nuevo Codigo para ver si podemos hacer que ciertos botones desparezcan/aparezcan segun autorizacion-->
+@using Microsoft.AspNetCore.Authorization
 <!--Nuevo Codigo porque a Home se le canta no autorizar las cosas-->
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +15,7 @@
     <link rel="stylesheet" href="~/css/PreguntasFrecuentes.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/SobreNosotros.css" asp-append-version="true" />  
     <link rel="stylesheet" href="~/UniversidadMVC.styles.css" asp-append-version="true" />
-    <!--   <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> -->
+    <!-- <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> -->
      <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
@@ -33,12 +34,30 @@
             <nav>
             <a asp-controller="Home" asp-action="Index" class="nav">Home</a>
             <a asp-controller="Account" asp-action="Register" class="nav">Inscripcion</a>
-            <a asp-controller="Carreras" asp-action="Index" class="nav">Carreras</a>
-            <!-- <a asp-controller="Carreras" asp-action="Materias" href="" class="nav">Materias</a>-->
-            <a asp-controller="Materias" asp-action="AgregarMaterias" class="nav">AgregarMaterias</a>
-            <a asp-controller="Carreras" asp-action="BorrarCarrera" class="nav">BorrarCarrera</a>
-            <a asp-controller="Carreras" asp-action="CrearCarrera" class="nav">CrearCarrera</a>
-            <a asp-controller="Account" asp-action="LogIn" class="nav">Login</a>           
+            <a asp-controller="Account" asp-action="LogIn" class="nav">Login</a>
+
+
+            <!--El codigo debajo permite mostrar texto segun el permiso que tienen.-->
+            @if (User.IsInRole("Administrador"))
+            {
+           
+                <a asp-controller="Materias" asp-action="AgregarMaterias" class="nav">AgregarMaterias</a>
+                <a asp-controller="Carreras" asp-action="BorrarCarrera" class="nav">BorrarCarrera</a>
+                <a asp-controller="Carreras" asp-action="CrearCarrera" class="nav">CrearCarrera</a>
+                <a asp-controller="Carreras" asp-action="Grilla" class="nav">Grilla Carreras...</a>
+ 
+
+
+            }
+            @if (User.IsInRole("ElUsuario"))
+            {
+                <a asp-controller="Account" asp-action="RegistrarseEnMaterias" class="nav">RegistrarseMaterias</a>
+                <a asp-controller="Carreras" asp-action="Grilla" class="nav">Grilla Carreras...</a>
+     
+             
+            }
+            
+
             </nav>
      
     </header>

@@ -10,6 +10,8 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using UniversidadMVC.Data;
 using UniversidadMVC.Models;
+using System.Web;
+using Microsoft.Data.SqlClient;
 
 namespace UniversidadMVC.Controllers
 {
@@ -28,27 +30,31 @@ namespace UniversidadMVC.Controllers
         {
             return View();
         }
-
+        [Authorize(Roles = "Administrador")]
         public IActionResult CrearCarrera()
         {
             return View();
         }
-
+        [Authorize(Roles = "Administrador")]
         public IActionResult BorrarCarrera()
         {
             return View();
         }
+        [Authorize(Roles = "Administrador,ElUsuario")]
+        public IActionResult Grilla()
+        {
+            var carreras = _context.Carreras.ToList();
+            return View(carreras);
+        }
 
-
-        //Agrega Carreras por Nombre o por html
-        //Esto funciona, no te permite crear una carrera con el mismo nombre de una ya creada
+        //Crea carreras
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> CrearCarreras([Bind("Nombre")] NuevaCarrera otraCarrera)
         {
             Carrera nuevaCategoria = new Carrera();
             nuevaCategoria.Nombre = otraCarrera.Nombre;
             var datosTabla = await _context.Carreras.FirstOrDefaultAsync(m => m.Nombre == otraCarrera.Nombre);
-            // "m" es una variable lamba
+
             if (datosTabla == null)
             {
                 await _context.Carreras.AddAsync(nuevaCategoria);
@@ -57,10 +63,9 @@ namespace UniversidadMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //Borrar Carreras
-        //Recorda no dejar comentarios personales dentro del codigo.
 
-        //Borra carreras por Id
+        //Borra Carreras por ID
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> BorrarCarreraId([Bind("Id")] NuevaCarrera borrarId)
         {
             if (_context.Carreras == null)
@@ -81,7 +86,8 @@ namespace UniversidadMVC.Controllers
         }
 
 
-        //Borra carreras por nombre
+        //Borra Carreras por Nombre
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> BorrarCarreraNombre([Bind("Nombre")] NuevaCarrera borrarNombre)
         {
             if (_context.Carreras == null)
@@ -94,6 +100,7 @@ namespace UniversidadMVC.Controllers
             if (carrera != null)
 
             {
+
                 _context.Carreras.Remove(carrera);
             }
 

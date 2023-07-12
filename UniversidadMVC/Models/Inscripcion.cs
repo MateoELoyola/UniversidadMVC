@@ -5,14 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversidadMVC
+namespace UniversidadMVC.Models
 {
     public class Inscripcion
     {
         [Key]
         public int Id { get; set; }
         public virtual Usuario Usuario { get; set; }       
-        public virtual List<Materia> Materias { get; set; } 
+        public virtual ICollection<Materia> Materias { get; set; } 
+
         public Inscripcion() {       
         
         }    

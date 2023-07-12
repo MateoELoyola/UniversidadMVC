@@ -10,6 +10,7 @@ using System.Drawing.Drawing2D;
 using System.Linq;
 using UniversidadMVC.Data;
 using UniversidadMVC.Models;
+using System.Web;
 
 namespace UniversidadMVC.Controllers
 {
@@ -22,6 +23,8 @@ namespace UniversidadMVC.Controllers
         {
             _context = context;
         }
+
+        [Authorize(Roles = "Administrador")]
         public IActionResult AgregarMaterias()
         {
             return View();
@@ -31,41 +34,8 @@ namespace UniversidadMVC.Controllers
             return View();
         }
 
-        /*
-        //COdigo Original
-
-        public async Task<IActionResult> AgregarMateria([Bind("Carrera,Nombre,Identificador")] MateriasParaAgregar materias)
-        {
-            Materia materiaFalsa = new Materia();
-            materiaFalsa.Nombre = materias.Nombre;
-           
-            Carrera carreraFalsa = new Carrera();
-            carreraFalsa.Nombre = materias.Carrera;
-
-            List<Materia> x = new List<Materia>();
-       
-            var datosTabla = await _context.Carreras.FirstOrDefaultAsync(m => m.Nombre.Equals(carreraFalsa.Nombre));
-
-            
-            if (datosTabla != null && datosTabla.Materias == null)
-            {
-
-                datosTabla.Materias = x;
-                datosTabla.Materias.Add(materiaFalsa);         
-                await _context.SaveChangesAsync();
-
-            }           
-/*
-           if (datosTabla != null && datosTabla.Materias != null)
-            {
-                datosTabla.Materias.Add(materiaFalsa);
-                await _context.SaveChangesAsync();
-            }
-*/      
-          //      return RedirectToAction(nameof(Index));
-      //  }
-
-        //Version 2 del codigo de arriba con chatgpt 
+        //Codigo para Agregar Materias a las Carreras
+        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> AgregarMateria([Bind("Carrera,Nombre")] MateriasParaAgregar materias)
         {
             Materia materiaFalsa = new Materia();
@@ -84,19 +54,15 @@ namespace UniversidadMVC.Controllers
                 }
 
                 datosTabla.Materias.Add(materiaFalsa);
-                //necesito el await aca?
+   
                 await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index", "Home");
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Error", "Home");
         }
 
-
-
-
-
-
-
-
     }
+
 }

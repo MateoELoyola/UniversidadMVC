@@ -12,8 +12,8 @@ using UniversidadMVC.Data;
 namespace UniversidadMVC.Migrations
 {
     [DbContext(typeof(UniversidadDbContext))]
-    [Migration("20230708175321_Version45")]
-    partial class Version45
+    [Migration("20230712165531_Joder")]
+    partial class Joder
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

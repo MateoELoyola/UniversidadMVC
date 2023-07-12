@@ -6,9 +6,7 @@ using UniversidadMVC.Models;
 using Microsoft.Extensions.Options;
 
 
-        var builder = WebApplication.CreateBuilder(args);
-//var connectionString = builder.Configuration.GetConnectionString("BibliotecaDbContextConnection") ?? throw new InvalidOperationException("Connection string 'BibliotecaDbContextConnection' not found.");
-
+ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -19,7 +17,7 @@ builder.Services.AddDbContext<UniversidadDbContext>(option =>
 });
 
 
-//Faltaba el "AddRoles" en esta parte del codigo
+//Maneja el SingIn, contraseña y Roles.
 builder.Services.AddDefaultIdentity<Usuario>(options => {
     options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequireNonAlphanumeric = false;
@@ -32,7 +30,6 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 
 });
-
 
 builder.Services.AddRazorPages();
 

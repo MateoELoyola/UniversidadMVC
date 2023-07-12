@@ -7,18 +7,17 @@ using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UniversidadMVC
+namespace UniversidadMVC.Models
 {
     public class Usuario:IdentityUser
     {
+
+        public virtual ICollection<Inscripcion> Inscripciones { get; set; }
 
         public Usuario():base() {
             
         }
 
-        public virtual List<Inscripcion> Inscripciones { get; set; }
-
     }
-
-   
+  
 }

@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;
 using System.Data;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using UniversidadMVC.Data;
 using UniversidadMVC.Models;
+using System.Web;
 
 
 
@@ -21,6 +23,8 @@ namespace UniversidadMVC.Controllers
         private SignInManager<Usuario> _signInMgr { get; }
         private RoleManager<Role> _role { get; }
 
+        public static string cosaAbstracta { get; set; }
+
         private readonly UniversidadDbContext _context;
 
         public AccountController(UniversidadDbContext context, UserManager<Usuario> userManager, SignInManager<Usuario> signInMgr, RoleManager<Role> role)
@@ -28,9 +32,9 @@ namespace UniversidadMVC.Controllers
             _userMgr = userManager;
             _context = context;
             _signInMgr = signInMgr;
-            _role = role;    
+            _role = role;
         }
-     
+
         public IActionResult Index()
         {
             return View();
@@ -45,18 +49,20 @@ namespace UniversidadMVC.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "ElUsuario")]
+        public IActionResult RegistrarseEnMaterias()
+        {
+            return View();
+        }
 
+ 
         //Codigo Registrarse
-
-        // Esto Asigna Roles y Funciona!!!!!!
-
         public async Task<IActionResult> Registrarse([Bind("UserName,Name,LastName,PasswordRegister")] Registrar userForm)
         {
-
+            //Si se puede, usar en el constructor.
             Usuario user = new Usuario();
             string passwordAdmin = "12345Abc@";
 
-            //Esto esta mal, pero por alguna razon funciona.
             Role administrador = new Role();
             administrador.Name = "Administrador";
             await _role.CreateAsync(administrador);
@@ -79,7 +85,8 @@ namespace UniversidadMVC.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("LogIn", "Account");
+                    //Redireccion
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -102,7 +109,7 @@ namespace UniversidadMVC.Controllers
 
             }
             
-        return RedirectToAction("Privacy", "Home");
+        return RedirectToAction("Error", "Home");
 
         }
 
@@ -110,22 +117,69 @@ namespace UniversidadMVC.Controllers
 
         public async Task<IActionResult> Entrar([Bind("UserName,Password")] Loguearse _logIn)
         {
+            //En caso de que no te puedas inscribir a materias, moverlo aca arriba.
+           // cosaAbstracta = _logIn.UserName;
+
             Microsoft.AspNetCore.Identity.SignInResult result = await _signInMgr.PasswordSignInAsync(_logIn.UserName, _logIn.Password, false, false);
             IList<string> rol = await _userMgr.GetRolesAsync(new Usuario());
             if (result.Succeeded)
             {
-                //Nose para que servia este codigo, por eso lo saque.
-                
-               // HttpContext.Session.SetString("Loguearse", _logIn.UserName);
-               // HttpContext.Session.SetString("Role", rol.First());
-                
+
+                cosaAbstracta = _logIn.UserName;
                 return RedirectToAction("Index", "Home");
             }
-            return RedirectToAction("Error", "Home");
+            return RedirectToAction("Privacy", "Home");
 
         }
+       
+        //Permite que el usuario se inscriba a las materias
 
-     
+        [Authorize(Roles = "ElUsuario")]
+        public async Task<IActionResult> InscribirseMaterias([Bind("Nombre")] NuevaCarrera buscarCarrera)
+        {
+            if (_context.Carreras == null)
+            {
+                return Problem("Entity set 'UniversidadDbContext.Carreras' is null.");
+            }
+
+            var carreraEncontrada = await _context.Carreras.Include(c => c.Materias).FirstOrDefaultAsync(m => m.Nombre == buscarCarrera.Nombre);
+
+            if (carreraEncontrada != null)
+            {
+                var miercoles = await _userMgr.FindByNameAsync(cosaAbstracta);
+
+                if (miercoles != null)
+                {
+                    if (miercoles.Inscripciones == null)
+                    {
+                        miercoles.Inscripciones = new List<Inscripcion>();
+                    }
+
+                    Inscripcion nuevaInscripcion = new Inscripcion();
+
+                    if (carreraEncontrada.Materias != null)
+                    {
+                        nuevaInscripcion.Materias = carreraEncontrada.Materias.ToList();
+                    }
+                    else
+                    {
+                        return RedirectToAction("Privacy", "Home");
+                       
+                    }
+
+                    miercoles.Inscripciones.Add(nuevaInscripcion);
+
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Index));
+
+                }
+
+                return RedirectToAction("Privacy", "Home");
+            }
+
+             return RedirectToAction("Privacy", "Home");
+        }
 
     }
 }

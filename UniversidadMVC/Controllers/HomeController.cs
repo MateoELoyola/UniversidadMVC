@@ -22,7 +22,6 @@ namespace UniversidadMVC.Controllers
         public IActionResult Index()
         {
 
-        //    ViewData["UserName"] = HttpContext.Session.GetString("Usuario");
             return View();
         }
 

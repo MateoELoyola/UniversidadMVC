@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UniversidadMVC.Migrations
 {
-    public partial class Version45 : Migration
+    public partial class Joder : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
